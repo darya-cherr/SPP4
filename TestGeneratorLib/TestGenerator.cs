@@ -15,14 +15,19 @@ namespace TestGeneratorLib
                 CompilationUnitSyntax root = SyntaxFactory.CompilationUnit();
                 
                 NamespaceInfo namespaceInfo = analyzer.Analyse(code);
+                SyntaxList<UsingDirectiveSyntax> usings = GenerateUsings(namespaceInfo);
                 
                 return root.NormalizeWhitespace().ToFullString();
             });
             
             return result;
         }
-        
-        
+        private SyntaxList<UsingDirectiveSyntax> GenerateUsings(NamespaceInfo declaration)
+        {
+            return SyntaxFactory.List<UsingDirectiveSyntax>(new UsingDirectiveSyntax[]{
+                SyntaxFactory.UsingDirective(SyntaxFactory.IdentifierName("NUnit.Framework")),
+                SyntaxFactory.UsingDirective(SyntaxFactory.IdentifierName(declaration.Name))});
+        }
         
     }
 }
