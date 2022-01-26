@@ -8,7 +8,7 @@ namespace TestGeneratorLib
 {
     public class CodeAnalyzer
     {
-        public void Analyse(string code)
+        public NamespaceInfo Analyse(string code)
         {
             SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
@@ -16,6 +16,11 @@ namespace TestGeneratorLib
             var classDeclaration = namespaceDecalaration.Members.OfType<ClassDeclarationSyntax>().First();
             var methodDeclaration = classDeclaration.Members.OfType<MethodDeclarationSyntax>().Where(method => method.Modifiers.Where(modifier => modifier.Kind() == SyntaxKind.PublicKeyword).Any());
             
+            IEnumerable<MethodInfo> methods = methodDeclaration.Select(method => new MethodInfo(method.Identifier.ToString()));
+            ClassInfo classes = new ClassInfo(classDeclaration.Identifier.ToString(), methods);
+            NamespaceInfo namespaces = new NamespaceInfo(namespaceDecalaration.Name.ToString(), classes);
+
+            return namespaces;
         }
     }
 }
