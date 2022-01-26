@@ -20,6 +20,8 @@ namespace TestGeneratorLib
                 SyntaxList<UsingDirectiveSyntax> usings = GenerateUsings(namespaceInfo);
                 SyntaxList<MemberDeclarationSyntax> namespaces = GenerateNamespace(namespaceInfo);
                 
+                root = root.WithUsings(usings).WithMembers(namespaces);
+                
                 return root.NormalizeWhitespace().ToFullString();
             });
             
@@ -47,7 +49,7 @@ namespace TestGeneratorLib
                         SyntaxFactory.SingletonList<AttributeListSyntax>(
                             SyntaxFactory.AttributeList(
                                 SyntaxFactory.SingletonSeparatedList<AttributeSyntax>(
-                                    SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("TestClass"))))))
+                                    SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("TestFixture"))))))
                     .WithModifiers(
                         SyntaxFactory.TokenList(
                             SyntaxFactory.Token(SyntaxKind.PublicKeyword)))
@@ -62,7 +64,7 @@ namespace TestGeneratorLib
                         SyntaxFactory.SingletonList<AttributeListSyntax>(
                             SyntaxFactory.AttributeList(
                                 SyntaxFactory.SingletonSeparatedList<AttributeSyntax>(
-                                    SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("TestMethod"))))))
+                                    SyntaxFactory.Attribute(SyntaxFactory.IdentifierName("Test"))))))
                     .WithBody(
                         SyntaxFactory.Block(
                             SyntaxFactory.SingletonList<StatementSyntax>(
