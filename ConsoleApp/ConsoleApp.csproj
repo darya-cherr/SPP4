@@ -15,4 +15,8 @@
       <Folder Include="TestResult" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TestGeneratorLib\TestGeneratorLib.csproj" />
+    </ItemGroup>
+
 </Project>
